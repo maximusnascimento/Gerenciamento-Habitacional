@@ -1,17 +1,14 @@
-import pyodbc  
-import os
-
+import pyodbc
 
 def connect() -> str:
     try:
-        global connection
         connection = pyodbc.connect(
-            driver= # ex: SQL SERVER,
-            server= # SERVIDOR,
-            database= #,
-            uid= # USUARIO,
-            pwd= # SENHA
+            driver='{SQL Server}',
+            server='SEU_SERVIDOR', 
+            database='SEU_BANCO',  
+            uid='SEU_USUARIO',     
+            pwd='SUA_SENHA'        
         )
-    except Exception as e:
-        return f"Erro ao conectar: {str(e)}"
-    
+        return "Conexão estabelecida com sucesso!"
+    except:
+        return "Erro ao conectar"
