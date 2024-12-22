@@ -1,4 +1,4 @@
-import database
+import database 
 
 # Menu principal
 def main():
@@ -9,9 +9,12 @@ def main():
     
     print(database.connect())  
 
+    logado = False
+
     while True:
         print("\nMenu Principal")
-        print("[1] Cadastro de Usuários")
+        if not logado:
+            print("[1] Cadastro de Usuários")
         print("[2] Login")
         print("[3] Cadastro de Imóveis")
         print("[4] Sair")
@@ -20,7 +23,12 @@ def main():
             if opcao == 1:
                 database.cadastro()  
             elif opcao == 2:
-                pass
+                database.login()
+                if logado == True:
+                    print("Login realizado com sucesso!")
+                else:
+                    logado = False
+                    print("Falha no login!")
             elif opcao == 3:
                 database.cadastroImoveis()  
             elif opcao == 4:

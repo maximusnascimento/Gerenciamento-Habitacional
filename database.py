@@ -14,6 +14,7 @@ def connect() -> str:
     except Exception as e:
         return f"Erro ao conectar: {str(e)}"
 
+
 def cadastro():
     cursor = connection.cursor()
     print("CADASTRO DE USUÁRIOS")
@@ -48,7 +49,7 @@ def cadastroImoveis():
             op = int(input("Escolha uma das opções de imóvel: "))
             if op == 1 or op == 2:
                 tipoImovel = "Casa" if op == 1 else "Apartamento"
-                print("Tipo de imóvel escolhido - ", tipoImovel)
+                print("Tipo de imóvel escolhido -", tipoImovel)
                 break
             else:
                 print("Opção inválida. Tente novamente.")
@@ -68,16 +69,37 @@ def cadastroImoveis():
         cursor.execute(command, (enderecoImovel, tipoImovel, tamanhoImovel, valorImovel))
         connection.commit()
         print("\nImóvel cadastrado com sucesso.")
-    except ValueError as e:
-        print(f"Erro: {e}")
+    except ValueError as ve:
+        print(f"Erro: {ve}")
     except Exception as e:
         print(f"Erro ao realizar o cadastro do imóvel: {str(e)}")
 
-def cadastroPropriedarios():
-    pass
+def login():
+    cursor = connection.cursor()
+    print("LOGIN")
+    try:
+        while True:
+            email = input("Digite o seu email para login: ")
+            if "@" not in email:
+                print("Não é um email válido. Por favor, tente novamente.")
+            else:
+                break
 
-    # cursor = connection.cursor()
-    # print("CADASTRO DE PROPRIETÁRIOS")
-    # try:
-    #     nome = input("Digite o nome do proprietário do imóvel: ")
-        
+        senha = input("Digite a senha para login: ")
+
+        command = "SELECT * FROM ip.usuarios WHERE email = ? AND senha = ?"
+        cursor.execute(command, (email, senha))
+        result = cursor.fetchone() 
+
+        if result:
+            print("Login bem-sucedido!")
+            return True 
+        else:
+            print("Usuário inválido")
+            return False  
+    except Exception as e:
+        print(f"Erro no login: {e}")
+        return False 
+    finally:
+        cursor.close()
+
